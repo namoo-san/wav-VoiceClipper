@@ -2,6 +2,8 @@
 
 長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリケーション
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/779dc2a6-7f37-42f1-8523-f88b83762d94/deploy-status)](https://app.netlify.com/projects/wav-voiceclipper/deploys)
+
 ## 特徴
 
 - 🎯 **無音検出による自動区間抽出** - しきい値と最小音声長を調整可能

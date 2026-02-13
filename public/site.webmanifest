@@ -17,6 +17,6 @@
   "theme_color": "#22c55e",
   "background_color": "#ffffff",
   "display": "standalone",
-  "start_url": "/",
-  "scope": "/"
+  "start_url": "https://wav-clip.nakashun.com/",
+  "scope": "https://wav-clip.nakashun.com/"
 }

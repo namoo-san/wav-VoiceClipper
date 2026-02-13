@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     public: {
       gitCommit: process.env.NUXT_PUBLIC_GIT_COMMIT || 'dev',
       buildTime: new Date().toISOString(),
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://wav-clip.nakashun.com'
     }
   },
 
@@ -45,11 +45,13 @@ export default defineNuxtConfig({
         
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: process.env.NUXT_PUBLIC_SITE_URL || 'https://wav-clip.nakashun.com' },
         { property: 'og:title', content: 'ボイス素材作るくん - WAVファイル音声切り抜きツール' },
         { property: 'og:description', content: '長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリ。ブラウザだけで動作し、無音検出による自動区間抽出機能を搭載。' },
-        { property: 'og:image', content: `${process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/og-image.png` },
+        { property: 'og:image', content: `${process.env.NUXT_PUBLIC_SITE_URL || 'https://wav-clip.nakashun.com'}/og-image.png` },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
+        { property: 'og:image:alt', content: 'ボイス素材作るくん - WAVファイル音声切り抜きツール' },
         { property: 'og:site_name', content: 'ボイス素材作るくん' },
         { property: 'og:locale', content: 'ja_JP' },
         
@@ -57,7 +59,8 @@ export default defineNuxtConfig({
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: 'ボイス素材作るくん - WAVファイル音声切り抜きツール' },
         { name: 'twitter:description', content: '長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリ。ブラウザだけで動作。' },
-        { name: 'twitter:image', content: `${process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/og-image.png` },
+        { name: 'twitter:image', content: `${process.env.NUXT_PUBLIC_SITE_URL || 'https://wav-clip.nakashun.com'}/og-image.png` },
+        { name: 'twitter:image:alt', content: 'ボイス素材作るくん - WAVファイル音声切り抜きツール' },
         
         // Theme
         { name: 'theme-color', content: '#22c55e' },
@@ -69,7 +72,7 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
         { rel: 'manifest', href: '/site.webmanifest' },
-        { rel: 'canonical', href: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000' }
+        { rel: 'canonical', href: process.env.NUXT_PUBLIC_SITE_URL || 'https://wav-clip.nakashun.com' }
       ],
       script: [
         {

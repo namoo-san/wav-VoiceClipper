@@ -1,10 +1,10 @@
 <template>
-  <div id="app" class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex flex-col">
+  <div id="app" class="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex flex-col">
     <!-- Header -->
     <header class="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-40">
       <div class="container mx-auto px-4 py-3 flex items-center justify-between">
         <NuxtLink to="/" class="flex items-center gap-2 hover:opacity-80 transition">
-          <Icon name="mdi:waveform" class="text-primary-500 text-2xl" />
+          <img src="/logos/logo.svg" alt="ボイス素材作るくん" class="w-8 h-8" />
           <h1 class="text-lg font-bold text-gray-900">ボイス素材作るくん</h1>
         </NuxtLink>
         <nav class="flex items-center gap-4">

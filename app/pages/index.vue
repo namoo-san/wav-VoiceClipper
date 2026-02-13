@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <section class="text-center mb-20">
       <div class="inline-block mb-6">
-        <Icon name="mdi:waveform" class="text-primary-500 text-6xl" />
+        <img src="/logos/logo.svg" alt="ボイス素材作るくん" class="w-24 h-24 mx-auto" />
       </div>
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
         長時間の音声ファイルを<br class="md:hidden" />簡単に切り抜き
@@ -114,7 +114,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="text-center bg-gradient-to-r from-primary-500 to-purple-500 rounded-2xl p-12 text-white">
+    <section class="text-center bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl p-12 text-white">
       <h2 class="text-3xl font-bold mb-4">今すぐ始めましょう</h2>
       <p class="text-lg mb-8 opacity-90">登録不要、インストール不要。ブラウザだけで使えます。</p>
       <NuxtLink

@@ -1,240 +1,146 @@
 <template>
-  <div class="container mx-auto px-4 py-8 max-w-7xl">
-    <!-- Header -->
-    <header class="text-center mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3 flex items-center justify-center gap-3">
-        <Icon name="mdi:waveform" class="text-primary-500" />
-        WAVボイス素材切り抜きツール
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <!-- Hero Section -->
+    <section class="text-center mb-20">
+      <div class="inline-block mb-6">
+        <Icon name="mdi:waveform" class="text-primary-500 text-6xl" />
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        長時間の音声ファイルを<br class="md:hidden" />簡単に切り抜き
       </h1>
-      <p class="text-gray-600 text-lg">長時間のWAVファイルから必要な部分を簡単に切り抜き</p>
-    </header>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        無音検出で自動的に音声区間を抽出。<br>
+        ブラウザだけで動作するので、ファイルをアップロードする必要はありません。
+      </p>
+      <NuxtLink
+        to="/tool"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl font-medium text-lg"
+      >
+        <Icon name="mdi:play-circle" class="text-2xl" />
+        今すぐ使ってみる
+      </NuxtLink>
+    </section>
 
-    <!-- Main Content -->
-    <div class="space-y-6">
-      <AudioUploader @file-loaded="handleFileLoaded" />
-      
-      <template v-if="audioBuffer">
-        <DetectionPanel
-          @detect="handleDetect"
-          @clear="handleClearDetection"
-        />
-        
-        <WaveformViewer
-          :audio-buffer="audioBuffer"
-          :detected-regions="detectedRegions"
-          :current-region-index="currentRegionIndex"
-          @region-selected="handleRegionSelected"
-          @selection-changed="handleSelectionChanged"
-        />
-        
-        <RegionNavigation
-          v-if="detectedRegions.length > 0"
-          :current-index="currentRegionIndex"
-          :total-regions="detectedRegions.length"
-          @navigate="handleNavigate"
-          @add-all="handleAddAllRegions"
-        />
-        
-        <AudioControls
-          :has-selection="hasSelection"
-          @play="handlePlay"
-          @pause="handlePause"
-          @play-selection="handlePlaySelection"
-          @add-to-queue="handleAddToQueue"
-        />
-        
-        <TimeDisplay
-          :start-time="selectionStart"
-          :end-time="selectionEnd"
-          @update="handleTimeUpdate"
-        />
-        
-        <ExportQueue
-          :queue="exportQueue"
-          @play-item="handlePlayQueueItem"
-          @remove-item="handleRemoveFromQueue"
-          @clear-queue="handleClearQueue"
-          @export-all="handleExportAll"
-        />
-      </template>
-    </div>
+    <!-- Features Section -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">主な機能</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+            <Icon name="mdi:radar" class="text-primary-500 text-2xl" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">自動音声検出</h3>
+          <p class="text-gray-600">無音部分を自動で検出し、音声区間だけを抽出。しきい値と最小音声長を調整可能。</p>
+        </div>
 
-    <!-- Footer -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+            <Icon name="mdi:waveform" class="text-primary-500 text-2xl" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">波形表示</h3>
+          <p class="text-gray-600">音声を視覚的に確認。ズーム機能で詳細な編集が可能。再生位置もリアルタイムで表示。</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+            <Icon name="mdi:download" class="text-primary-500 text-2xl" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">一括エクスポート</h3>
+          <p class="text-gray-600">複数の音声区間をキューに追加し、ZIPファイルで一括ダウンロード。</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+            <Icon name="mdi:shield-check" class="text-primary-500 text-2xl" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">プライバシー保護</h3>
+          <p class="text-gray-600">ファイルはサーバーに送信されず、全ての処理がブラウザ上で完結。</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+            <Icon name="mdi:keyboard" class="text-primary-500 text-2xl" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">ショートカット対応</h3>
+          <p class="text-gray-600">キーボードショートカットで効率的に操作。矢印キーで区間移動、Enterでキューに追加。</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+          <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+            <Icon name="mdi:currency-usd-off" class="text-primary-500 text-2xl" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">完全無料</h3>
+          <p class="text-gray-600">登録不要、制限なし。全ての機能を無料でご利用いただけます。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">使い方</h2>
+      <div class="max-w-3xl mx-auto space-y-6">
+        <div class="flex gap-4 items-start">
+          <div class="flex-shrink-0 w-10 h-10 bg-primary-500 text-white rounded-full flex items-center justify-center font-bold">1</div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 mb-1">WAVファイルを選択</h3>
+            <p class="text-gray-600">ローカルのWAVファイルを読み込みます。</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-start">
+          <div class="flex-shrink-0 w-10 h-10 bg-primary-500 text-white rounded-full flex items-center justify-center font-bold">2</div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 mb-1">音声区間を検出</h3>
+            <p class="text-gray-600">自動検出ボタンで無音部分を除いた音声区間を抽出。</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-start">
+          <div class="flex-shrink-0 w-10 h-10 bg-primary-500 text-white rounded-full flex items-center justify-center font-bold">3</div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 mb-1">区間を選択してキューに追加</h3>
+            <p class="text-gray-600">必要な区間を選択し、エクスポートキューに追加。</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-start">
+          <div class="flex-shrink-0 w-10 h-10 bg-primary-500 text-white rounded-full flex items-center justify-center font-bold">4</div>
+          <div>
+            <h3 class="text-lg font-bold text-gray-900 mb-1">一括エクスポート</h3>
+            <p class="text-gray-600">ZIPファイルとしてまとめてダウンロード。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="text-center bg-gradient-to-r from-primary-500 to-purple-500 rounded-2xl p-12 text-white">
+      <h2 class="text-3xl font-bold mb-4">今すぐ始めましょう</h2>
+      <p class="text-lg mb-8 opacity-90">登録不要、インストール不要。ブラウザだけで使えます。</p>
+      <NuxtLink
+        to="/tool"
+        class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg font-medium text-lg"
+      >
+        <Icon name="mdi:rocket-launch" class="text-2xl" />
+        ツールを使う
+      </NuxtLink>
+    </section>
+
+    <!-- Footer Links -->
     <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-gray-600 text-sm">
-      <p class="mb-2">完全ブラウザ内で動作 - ファイルはサーバーにアップロードされません</p>
-      <div class="flex items-center justify-center gap-4">
-        <a href="https://github.com" target="_blank" rel="noopener" class="text-primary-500 hover:text-primary-600 transition">
-          <Icon name="mdi:github" class="inline" /> GitHub
-        </a>
-        <button @click="showHelp = true" class="text-primary-500 hover:text-primary-600 transition">
-          <Icon name="mdi:help-circle" class="inline" /> 使い方
-        </button>
+      <div class="flex items-center justify-center gap-6 mb-4">
+        <NuxtLink to="/privacy" class="hover:text-primary-500 transition">プライバシーポリシー</NuxtLink>
+        <NuxtLink to="/terms" class="hover:text-primary-500 transition">利用規約</NuxtLink>
       </div>
     </footer>
-
-    <!-- Help Modal -->
-    <HelpModal v-model="showHelp" />
-    
-    <!-- Loading Overlay -->
-    <LoadingOverlay v-model="isLoading" :message="loadingMessage" />
   </div>
 </template>
 
 <script setup lang="ts">
-const audioBuffer = ref<AudioBuffer | null>(null)
-const detectedRegions = ref<Array<{ start: number; end: number }>>([])
-const currentRegionIndex = ref(-1)
-const selectionStart = ref(0)
-const selectionEnd = ref(0)
-const hasSelection = ref(false)
-const exportQueue = ref<Array<any>>([])
-const showHelp = ref(false)
-const isLoading = ref(false)
-const loadingMessage = ref('')
-
-const { detectVoiceRegions } = useAudioDetection()
-const { playAudio, playSelection, stopAudio } = useAudioPlayback()
-const { exportToZip } = useAudioExport()
-
-function handleFileLoaded(buffer: AudioBuffer) {
-  audioBuffer.value = buffer
-  detectedRegions.value = []
-  currentRegionIndex.value = -1
-  exportQueue.value = []
-}
-
-async function handleDetect(options: any) {
-  if (!audioBuffer.value) return
-  
-  isLoading.value = true
-  loadingMessage.value = '音声区間を検出しています...'
-  
-  try {
-    const regions = await detectVoiceRegions(audioBuffer.value, options)
-    detectedRegions.value = regions
-    
-    if (regions.length > 0) {
-      currentRegionIndex.value = 0
-      handleRegionSelected(0)
-    }
-  } finally {
-    isLoading.value = false
-  }
-}
-
-function handleClearDetection() {
-  detectedRegions.value = []
-  currentRegionIndex.value = -1
-}
-
-function handleRegionSelected(index: number) {
-  currentRegionIndex.value = index
-  const region = detectedRegions.value[index]
-  if (region) {
-    selectionStart.value = region.start
-    selectionEnd.value = region.end
-    hasSelection.value = true
-  }
-}
-
-function handleSelectionChanged(selection: { start: number; end: number }) {
-  selectionStart.value = selection.start
-  selectionEnd.value = selection.end
-  hasSelection.value = true
-}
-
-function handleNavigate(direction: number) {
-  if (detectedRegions.value.length === 0) return
-  
-  let newIndex = currentRegionIndex.value + direction
-  if (newIndex < 0) newIndex = detectedRegions.value.length - 1
-  if (newIndex >= detectedRegions.value.length) newIndex = 0
-  
-  handleRegionSelected(newIndex)
-}
-
-function handlePlay() {
-  if (audioBuffer.value) {
-    playAudio(audioBuffer.value)
-  }
-}
-
-function handlePause() {
-  stopAudio()
-}
-
-function handlePlaySelection() {
-  if (audioBuffer.value && hasSelection.value) {
-    playSelection(audioBuffer.value, selectionStart.value, selectionEnd.value)
-  }
-}
-
-function handleAddToQueue() {
-  if (!hasSelection.value) return
-  
-  const queueItem = {
-    id: Date.now(),
-    name: `voice_${exportQueue.value.length + 1}`,
-    startTime: selectionStart.value,
-    endTime: selectionEnd.value,
-    duration: selectionEnd.value - selectionStart.value
-  }
-  
-  exportQueue.value.push(queueItem)
-  
-  // 次の区間に自動移動
-  if (detectedRegions.value.length > 0 && currentRegionIndex.value >= 0) {
-    handleNavigate(1)
-  }
-}
-
-function handleAddAllRegions() {
-  detectedRegions.value.forEach((region, index) => {
-    const queueItem = {
-      id: Date.now() + index,
-      name: `voice_${exportQueue.value.length + index + 1}`,
-      startTime: region.start,
-      endTime: region.end,
-      duration: region.end - region.start
-    }
-    exportQueue.value.push(queueItem)
-  })
-}
-
-function handlePlayQueueItem(item: any) {
-  if (audioBuffer.value) {
-    playSelection(audioBuffer.value, item.startTime, item.duration)
-  }
-}
-
-function handleRemoveFromQueue(id: number) {
-  exportQueue.value = exportQueue.value.filter(item => item.id !== id)
-}
-
-function handleClearQueue() {
-  if (confirm('キューを全てクリアしますか？')) {
-    exportQueue.value = []
-  }
-}
-
-async function handleExportAll() {
-  if (!audioBuffer.value || exportQueue.value.length === 0) return
-  
-  isLoading.value = true
-  loadingMessage.value = 'エクスポート中...'
-  
-  try {
-    await exportToZip(audioBuffer.value, exportQueue.value, (progress) => {
-      loadingMessage.value = `エクスポート中... (${progress.current}/${progress.total})`
-    })
-  } finally {
-    isLoading.value = false
-  }
-}
-
-function handleTimeUpdate(times: { start: number; end: number }) {
-  selectionStart.value = times.start
-  selectionEnd.value = times.end
-  hasSelection.value = true
-}
+useHead({
+  title: 'ボイス素材作るくん - WAVファイル音声切り抜きツール',
+  meta: [
+    { name: 'description', content: '長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリケーション。無音検出による自動区間抽出、波形表示、一括エクスポート機能を搭載。完全無料、登録不要。' }
+  ]
+})
 </script>

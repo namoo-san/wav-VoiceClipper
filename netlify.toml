@@ -2,6 +2,9 @@
   publish = ".output/public"
   command = "npm run generate"
 
+[build.environment]
+  NUXT_PUBLIC_GIT_COMMIT = "$COMMIT_REF"
+
 [[headers]]
   for = "/*"
   [headers.values]

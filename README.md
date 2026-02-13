@@ -1,35 +1,38 @@
-# WAVボイス素材切り抜きツール
+# ボイス素材作るくん
 
-長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリケーションです。
-
-🔗 **デモ**: [Netlifyでホスト予定]
+長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリケーション
 
 ## 特徴
 
-- ✨ 完全ブラウザ内で動作（サーバーにファイルをアップロードしません）
-- 🎵 WAVファイルの波形視覚化
-- 🔍 無音区間の自動検出
-- 🔎 波形の拡大・縮小機能
-- 📦 複数の切り抜きをキュー管理
-- 💾 一括エクスポート（ZIP形式）
-- 🎨 モダンなUI（Nuxt 3 + Tailwind CSS）
+- 🎯 **無音検出による自動区間抽出** - しきい値と最小音声長を調整可能
+- 📊 **波形表示** - ズーム機能付きで詳細な編集が可能
+- 🎵 **音声区間の再生** - 選択した区間のみを再生
+- 📦 **一括エクスポート** - 複数の区間をZIPファイルで一括ダウンロード
+- 🔒 **サーバー不要** - ファイルはアップロードされず、デバイス上で処理
+- ⌨️ **キーボードショートカット対応** - 効率的な操作が可能
+
+## 使い方
+
+1. **ファイルの読み込み** - WAVファイルを選択
+2. **音声区間の検出** - 自動検出または手動で範囲を選択
+3. **波形の表示調整** - 拡大・縮小で見やすく調整
+4. **キューへ追加** - 必要な区間をエクスポートキューに追加
+5. **エクスポート** - 一括でZIPファイルとしてダウンロード
+
+## キーボードショートカット
+
+- `←` / `→` : 前後の音声区間へ移動
+- `Enter` / `Space` : 選択中の区間をキューに追加
+- `+` / `-` : 波形の拡大・縮小
 
 ## 技術スタック
 
-- **フレームワーク**: Nuxt 3
-- **スタイリング**: Tailwind CSS
-- **アイコン**: Nuxt Icon
-- **音声処理**: Web Audio API
-- **対応フォーマット**: WAV（PCM 16bit）
+- **Nuxt 3** - Vue.jsフレームワーク
+- **TypeScript** - 型安全な開発
+- **Tailwind CSS** - スタイリング
+- **Web Audio API** - 音声処理
 
-## セットアップ
-
-### 前提条件
-
-- Node.js 18.x 以上
-- npm または yarn
-
-### インストール
+## 開発
 
 ```bash
 # 依存関係のインストール
@@ -37,106 +40,26 @@ npm install
 
 # 開発サーバーの起動
 npm run dev
+
+# ビルド
+npm run build
+
+# 本番プレビュー
+npm run preview
 ```
 
-ブラウザで `http://localhost:3000` を開きます。
+## デプロイ
 
-## ビルドとデプロイ
-
-### 静的サイト生成
-
-```bash
-# 静的ファイルを生成
-npm run generate
-
-# 生成されたファイルは .output/public に出力されます
-```
-
-### Netlifyへのデプロイ
-
-#### 方法1: Netlify CLIを使用
-
-```bash
-# Netlify CLIをインストール（初回のみ）
-npm install -g netlify-cli
-
-# ビルドしてデプロイ
-npm run generate
-netlify deploy --prod --dir=.output/public
-```
-
-#### 方法2: GitHubと連携
-
-1. このリポジトリをGitHubにプッシュ
-2. [Netlify](https://app.netlify.com/)にログイン
-3. "New site from Git"を選択
-4. GitHubリポジトリを選択
-5. ビルド設定:
-   - Build command: `npm run generate`
-   - Publish directory: `.output/public`
-6. "Deploy site"をクリック
-
-#### 方法3: Netlify Drop
+Netlifyへのデプロイに最適化されています。
 
 ```bash
 npm run generate
 ```
-
-生成された `.output/public` フォルダを [Netlify Drop](https://app.netlify.com/drop) にドラッグ&ドロップ
-
-## 使い方
-
-1. 「WAVファイルを選択」ボタンからWAVファイルをアップロード
-2. 「音声区間を自動検出」で無音部分を除いた音声区間を検出（オプション）
-3. 波形上でマウスをドラッグ、または検出された区間をクリックして選択
-4. 「キューに追加」で選択範囲をエクスポートキューに追加
-5. ファイル名を編集（必要に応じて）
-6. 「一括エクスポート」でZIPファイルとしてダウンロード
-
-### ショートカットキー
-
-- `+` / `=` : 波形を拡大
-- `-` / `_` : 波形を縮小
-- `←` : 前の音声区間へ移動
-- `→` : 次の音声区間へ移動
-- `Enter` / `Space` : 選択中の区間をキューに追加
-
-## プロジェクト構造
-
-```
-.
-├── app/
-│   ├── components/          # Vueコンポーネント
-│   │   ├── AudioUploader.vue
-│   │   ├── WaveformViewer.vue
-│   │   ├── DetectionPanel.vue
-│   │   ├── RegionNavigation.vue
-│   │   ├── AudioControls.vue
-│   │   ├── TimeDisplay.vue
-│   │   ├── ExportQueue.vue
-│   │   ├── LoadingOverlay.vue
-│   │   └── HelpModal.vue
-│   ├── composables/         # Composable関数
-│   │   ├── useAudioPlayback.ts
-│   │   ├── useAudioDetection.ts
-│   │   └── useAudioExport.ts
-│   └── pages/
-│       └── index.vue        # メインページ
-├── public/                  # 静的ファイル
-├── nuxt.config.ts          # Nuxt設定
-├── tailwind.config.js      # Tailwind設定
-├── netlify.toml            # Netlify設定
-└── package.json
-```
-
-## プライバシー
-
-このツールは完全にブラウザ内で動作します。アップロードしたファイルはサーバーに送信されず、全ての処理がお使いのデバイス上で行われます。
 
 ## ライセンス
 
 MIT License
 
-## 貢献
+## 作者
 
-プルリクエストを歓迎します。大きな変更の場合は、まずissueを開いて変更内容を議論してください。
+ボイス素材作るくん開発チーム

@@ -1,21 +1,22 @@
 <template>
-  <Teleport to="body">
-    <Transition
-      enter-active-class="transition-opacity duration-300"
-      leave-active-class="transition-opacity duration-300"
-      enter-from-class="opacity-0"
-      leave-to-class="opacity-0"
-    >
-      <div
-        v-if="modelValue"
-        class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-        @click="emit('update:modelValue', false)"
+  <ClientOnly>
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-opacity duration-300"
+        leave-active-class="transition-opacity duration-300"
+        enter-from-class="opacity-0"
+        leave-to-class="opacity-0"
       >
         <div
-          class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[80vh] overflow-y-auto"
-          @click.stop
+          v-if="modelValue"
+          class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          @click="emit('update:modelValue', false)"
         >
-          <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+          <div
+            class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[80vh] overflow-y-auto"
+            @click.stop
+          >
+          <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
             <h2 class="text-2xl font-bold text-gray-900">使い方</h2>
             <button
               @click="emit('update:modelValue', false)"
@@ -93,13 +94,14 @@
                 <Icon name="mdi:shield-check" />
                 プライバシー
               </h3>
-              <p class="text-gray-700">このツールは完全にブラウザ内で動作します。アップロードしたファイルはサーバーに送信されず、全ての処理がお使いのデバイス上で行われます。</p>
+              <p class="text-gray-700">このツールはブラウザだけで動作します。アップロードしたファイルはサーバーに送信されず、全ての処理がお使いのデバイス上で完結します。</p>
             </section>
           </div>
         </div>
       </div>
     </Transition>
   </Teleport>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">

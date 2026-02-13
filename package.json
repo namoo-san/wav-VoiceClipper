@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
+    "build": "NUXT_PUBLIC_GIT_COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown') nuxt build",
+    "generate": "NUXT_PUBLIC_GIT_COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo 'unknown') nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },

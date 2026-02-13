@@ -32,6 +32,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{
   fileLoaded: [buffer: AudioBuffer]
+  loading: [isLoading: boolean, message: string]
 }>()
 
 const fileInput = ref<HTMLInputElement>()
@@ -46,6 +47,8 @@ async function handleFileSelect(event: Event) {
   fileName.value = file.name
 
   try {
+    emit('loading', true, 'ファイルを読み込んでいます...')
+    
     const arrayBuffer = await file.arrayBuffer()
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
     const buffer = await audioContext.decodeAudioData(arrayBuffer)
@@ -60,6 +63,8 @@ async function handleFileSelect(event: Event) {
     emit('fileLoaded', buffer)
   } catch (error) {
     alert('WAVファイルの読み込みに失敗しました: ' + (error as Error).message)
+  } finally {
+    emit('loading', false, '')
   }
 }
 </script>

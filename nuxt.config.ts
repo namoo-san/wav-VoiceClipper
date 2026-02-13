@@ -60,8 +60,8 @@ export default defineNuxtConfig({
         { name: 'twitter:image', content: `${process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/og-image.png` },
         
         // Theme
-        { name: 'theme-color', content: '#667eea' },
-        { name: 'msapplication-TileColor', content: '#667eea' }
+        { name: 'theme-color', content: '#22c55e' },
+        { name: 'msapplication-TileColor', content: '#22c55e' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -101,7 +101,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify'
+    preset: 'netlify',
+    prerender: {
+      ignore: ['/service-worker.js']
+    }
   },
 
   compatibilityDate: '2024-11-01'

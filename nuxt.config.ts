@@ -47,6 +47,9 @@ export default defineNuxtConfig({
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'ボイス素材作るくん - WAVファイル音声切り抜きツール' },
         { property: 'og:description', content: '長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリ。ブラウザだけで動作し、無音検出による自動区間抽出機能を搭載。' },
+        { property: 'og:image', content: `${process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/og-image.png` },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
         { property: 'og:site_name', content: 'ボイス素材作るくん' },
         { property: 'og:locale', content: 'ja_JP' },
         
@@ -54,13 +57,18 @@ export default defineNuxtConfig({
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: 'ボイス素材作るくん - WAVファイル音声切り抜きツール' },
         { name: 'twitter:description', content: '長時間のWAVファイルから必要な部分を簡単に切り抜けるWebアプリ。ブラウザだけで動作。' },
+        { name: 'twitter:image', content: `${process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/og-image.png` },
         
         // Theme
         { name: 'theme-color', content: '#667eea' },
         { name: 'msapplication-TileColor', content: '#667eea' }
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: 'data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🎵</text></svg>' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' },
         { rel: 'canonical', href: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000' }
       ],
       script: [

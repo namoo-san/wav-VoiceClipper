@@ -11,7 +11,7 @@
           <NuxtLink to="/tool" class="text-gray-600 hover:text-primary-500 transition text-sm font-medium">
             ツール
           </NuxtLink>
-          <a href="https://github.com" target="_blank" rel="noopener" class="text-gray-600 hover:text-primary-500 transition text-sm">
+          <a href="https://github.com/namoo-san/wav-VoiceClipper" target="_blank" rel="noopener" class="text-gray-600 hover:text-primary-500 transition text-sm">
             <Icon name="mdi:github" class="inline text-xl" />
           </a>
         </nav>

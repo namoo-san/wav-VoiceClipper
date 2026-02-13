@@ -76,7 +76,7 @@
         <section>
           <h2 class="text-2xl font-bold text-gray-900 mb-4">9. お問い合わせ</h2>
           <p class="text-gray-700 leading-relaxed">
-            本プライバシーポリシーに関するお問い合わせは、GitHubのIssueまでお願いいたします。
+            本プライバシーポリシーに関するお問い合わせは、<a href="https://github.com/namoo-san/wav-VoiceClipper/issues" target="_blank" rel="noopener" class="text-primary-500 hover:text-primary-600 underline">GitHubのIssue</a>までお願いいたします。
           </p>
         </section>
 

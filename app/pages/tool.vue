@@ -63,7 +63,7 @@
     <!-- Footer -->
     <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-gray-600 text-sm">
       <div class="flex items-center justify-center gap-4 mb-4">
-        <a href="https://github.com" target="_blank" rel="noopener" class="text-primary-500 hover:text-primary-600 transition">
+        <a href="https://github.com/namoo-san/wav-VoiceClipper" target="_blank" rel="noopener" class="text-primary-500 hover:text-primary-600 transition">
           <Icon name="mdi:github" class="inline" /> GitHub
         </a>
         <button @click="showHelp = true" class="text-primary-500 hover:text-primary-600 transition">

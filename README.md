@@ -59,7 +59,3 @@ npm run generate
 ## ライセンス
 
 MIT License
-
-## 作者
-
-ボイス素材作るくん開発チーム

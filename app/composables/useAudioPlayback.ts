@@ -1,15 +1,15 @@
+import { useSharedAudioContext } from '~/composables/useSharedAudioContext'
+
 export function useAudioPlayback() {
-  let audioContext: AudioContext | null = null
   let source: AudioBufferSourceNode | null = null
   let startTime = 0
-  let pauseTime = 0
   let duration = 0
   let animationFrameId: number | null = null
 
   function playAudio(audioBuffer: AudioBuffer, onProgress?: (currentTime: number) => void) {
     stopAudio()
     
-    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const audioContext = useSharedAudioContext()
     source = audioContext.createBufferSource()
     source.buffer = audioBuffer
     source.connect(audioContext.destination)
@@ -21,7 +21,7 @@ export function useAudioPlayback() {
     
     if (onProgress) {
       const updateProgress = () => {
-        if (audioContext && source) {
+        if (source) {
           const currentTime = audioContext.currentTime - startTime
           if (currentTime < duration) {
             onProgress(currentTime)
@@ -39,6 +39,9 @@ export function useAudioPlayback() {
         cancelAnimationFrame(animationFrameId)
         animationFrameId = null
       }
+      if (onProgress) {
+        onProgress(duration)
+      }
     }
   }
 
@@ -50,7 +53,7 @@ export function useAudioPlayback() {
   ) {
     stopAudio()
     
-    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const audioContext = useSharedAudioContext()
     source = audioContext.createBufferSource()
     source.buffer = audioBuffer
     source.connect(audioContext.destination)
@@ -63,7 +66,7 @@ export function useAudioPlayback() {
     
     if (onProgress) {
       const updateProgress = () => {
-        if (audioContext && source) {
+        if (source) {
           const elapsed = audioContext.currentTime - startTime
           if (elapsed < playDuration) {
             onProgress(startOffset + elapsed)

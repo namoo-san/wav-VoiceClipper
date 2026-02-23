@@ -1,10 +1,12 @@
+import { useSharedAudioContext } from '~/composables/useSharedAudioContext'
+
 export function useAudioExport() {
   async function exportToZip(
     audioBuffer: AudioBuffer,
     queue: Array<any>,
     onProgress?: (progress: { current: number; total: number }) => void
   ) {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const audioContext = useSharedAudioContext()
     const files: Array<{ name: string; data: Uint8Array }> = []
     
     for (let i = 0; i < queue.length; i++) {

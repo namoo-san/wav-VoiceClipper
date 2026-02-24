@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { useSharedAudioContext } from '~/composables/useSharedAudioContext'
 const emit = defineEmits<{
   fileLoaded: [buffer: AudioBuffer]
   loading: [isLoading: boolean, message: string]
@@ -50,7 +51,8 @@ async function handleFileSelect(event: Event) {
     emit('loading', true, 'ファイルを読み込んでいます...')
     
     const arrayBuffer = await file.arrayBuffer()
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    // 共有 AudioContext を使ってデコードすることで、ブラウザの AudioContext 制限に引っかかりにくくする
+    const audioContext = useSharedAudioContext()
     const buffer = await audioContext.decodeAudioData(arrayBuffer)
     
     const duration = buffer.duration.toFixed(2)

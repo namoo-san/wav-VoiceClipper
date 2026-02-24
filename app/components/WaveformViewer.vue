@@ -153,8 +153,9 @@ function drawWaveform() {
   const ctx = canvas.value.getContext('2d')
   if (!ctx) return
   
-  // スケーリングを適用
-  ctx.scale(dpr, dpr)
+  // スケーリングを適用（毎回リセットしてから設定）
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+  ctx.clearRect(0, 0, width, height)
   
   const data = props.audioBuffer.getChannelData(0)
   const step = Math.ceil(data.length / width)
@@ -165,13 +166,10 @@ function drawWaveform() {
   ctx.fillRect(0, 0, width, height)
   
   // 波形を描画（より滑らかに）
-  ctx.strokeStyle = '#667eea'
   ctx.lineWidth = 1.5
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
-  
-  ctx.beginPath()
-  
+
   for (let i = 0; i < width; i++) {
     let min = 1.0
     let max = -1.0
@@ -187,16 +185,17 @@ function drawWaveform() {
     
     const y1 = (1 + min) * amp
     const y2 = (1 + max) * amp
-    
-    if (i === 0) {
-      ctx.moveTo(i, y1)
-    }
-    
-    ctx.lineTo(i, y1)
-    ctx.lineTo(i, y2)
+
+    // 無音圧縮表示モードでは、音量の小さい部分を薄く描画して判別しやすくする
+    const peak = Math.max(Math.abs(min), Math.abs(max))
+    const isSilent = compressSilence.value && peak < 0.02
+
+    ctx.strokeStyle = isSilent ? '#d1d5db' : '#667eea'
+    ctx.beginPath()
+    ctx.moveTo(i + 0.5, y1)
+    ctx.lineTo(i + 0.5, y2)
+    ctx.stroke()
   }
-  
-  ctx.stroke()
   
   // 中央線を描画
   ctx.strokeStyle = '#e5e7eb'

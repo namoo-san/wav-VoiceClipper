@@ -18,6 +18,25 @@
           @clear="handleClearDetection"
         />
         
+        <div v-if="detectionSummary" class="-mt-2">
+          <div
+            v-if="detectionSummary.count > 0"
+            class="text-sm text-gray-700 bg-green-50 border border-green-200 text-center px-4 py-2 rounded-lg"
+          >
+            検出された音声区間:
+            <span class="font-semibold">{{ detectionSummary.count }}</span>
+            個（合計
+            <span class="font-semibold">{{ detectionSummary.totalDuration.toFixed(1) }}</span>
+            秒）
+          </div>
+          <div
+            v-else
+            class="text-sm text-gray-700 bg-yellow-50 border border-yellow-200 text-center px-4 py-2 rounded-lg"
+          >
+            音声区間が検出されませんでした。しきい値を下げるか、最小音声長を短くして再度お試しください。
+          </div>
+        </div>
+        
         <WaveformViewer
           ref="waveformViewerRef"
           :audio-buffer="audioBuffer"
@@ -102,6 +121,7 @@ const isLoading = ref(false)
 const loadingMessage = ref('')
 const playbackPosition = ref<number | undefined>(undefined)
 const waveformViewerRef = ref<any>(null)
+const detectionSummary = ref<{ count: number; totalDuration: number } | null>(null)
 
 const { detectVoiceRegions } = useAudioDetection()
 const { playAudio, playSelection, stopAudio } = useAudioPlayback()
@@ -169,6 +189,7 @@ function handleFileLoaded(buffer: AudioBuffer) {
   detectedRegions.value = []
   currentRegionIndex.value = -1
   exportQueue.value = []
+  detectionSummary.value = null
 }
 
 function handleLoading(loading: boolean, message: string) {
@@ -188,9 +209,19 @@ async function handleDetect(options: any) {
     console.log('Detection complete, found regions:', regions.length)
     detectedRegions.value = regions
     
+    const totalDuration = regions.reduce((sum, region) => {
+      return sum + (region.end - region.start)
+    }, 0)
+    detectionSummary.value = {
+      count: regions.length,
+      totalDuration
+    }
+    
     if (regions.length > 0) {
       currentRegionIndex.value = 0
       handleRegionSelected(0)
+    } else {
+      alert('音声区間が検出されませんでした。しきい値を下げるか、最小音声長を短くして再度お試しください。')
     }
   } catch (error) {
     console.error('Detection error:', error)
@@ -203,6 +234,7 @@ async function handleDetect(options: any) {
 function handleClearDetection() {
   detectedRegions.value = []
   currentRegionIndex.value = -1
+  detectionSummary.value = null
 }
 
 function handleRegionSelected(index: number) {
